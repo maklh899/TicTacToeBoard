@@ -1,4 +1,6 @@
 #include "TicTacToeBoard.h"
+#include <iostream>
+using namespace std;
 /**
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
@@ -39,7 +41,7 @@ Piece TicTacToeBoard::toggleTurn()
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
   //game over, no need to play 
-  if(getWinner() == Invalid) 
+  if(getWinner() == Invalid ) 
   {
     //out of bounds
     Piece curPiece = getPiece(row, column);
@@ -55,6 +57,7 @@ Piece TicTacToeBoard::placePiece(int row, int column)
       
     }
     //filled spot
+    cout<<"Curpiece: "<<curPiece<<endl;
     return curPiece;
   }
 }
@@ -84,16 +87,18 @@ Piece TicTacToeBoard::getWinner()
   {
     if(board[i][0] != Blank)
     {
-      //horizontal check
+      //vertical check
       if((board[i][0] == board[i][1]) && (board[i][0] == board[i][2]))
       {
         return board[i][0];
       }
-
-      //vertical
+    }
+    if(board[0][i] != Blank)
+    {
+      //horizontal
       if((board[0][i] == board[1][i]) && (board[0][i] == board[2][i]))
       {
-        return board[0][1];
+        return board[0][i];
       }
     }
 
@@ -109,18 +114,21 @@ Piece TicTacToeBoard::getWinner()
     return board[2][0];
   }
 
-  //returns invalid if a row has been filled
+  //returns invalid if yhere are places empty
   for (int i = 0; i < 3; ++i)
   {
     for (int j = 0; j < 3; ++j)
     {
-      if (board[i][j] != Blank)
+      if (board[i][j] == Blank)
       {
+        cout<<"GetWinner() returns Invalid\n";
         return Invalid;
+
       }
     }
   }
 
-  //returns Blank if no rows has been has been filled
+  //returns Blank if all rows has been has been filled
+  cout<<"GetWinner() returns Blank\n";
   return Blank;
 }

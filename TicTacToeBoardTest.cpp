@@ -20,17 +20,17 @@ TEST(TicTacToeBoardTest, unitTestName)
 	ASSERT_TRUE(true);
 }
 
-TEST(TicTacToeBoardTest, blankgetWinner)
+TEST(TicTacToeBoardTest, notFilledgetWinner)
 {
 	TicTacToeBoard b;
-	ASSERT_EQ(b.getWinner(), Blank);
+	ASSERT_EQ(b.getWinner(), Invalid);
 }
 
 TEST(TicTacToeBoardTest, InvalidgetWinner)
 {
 	TicTacToeBoard b;
 	b.placePiece(2,1);
-	ASSERT_EQ(b.getWinner(), Blank);
+	ASSERT_EQ(b.getWinner(), Invalid);
 }
 
 TEST(TicTacToeBoardTest, Otogglepiece)
@@ -39,7 +39,7 @@ TEST(TicTacToeBoardTest, Otogglepiece)
 	b.placePiece(2,1);
 	b.placePiece(0,0);
 	b.placePiece(0,1);
-	ASSERT_EQ(b.placePiece(1,2), Blank);
+	ASSERT_EQ(b.placePiece(1,2), O);
 }
 
 TEST(TicTacToeBoardTest, invalidplacePiece)
@@ -54,16 +54,16 @@ TEST(TicTacToeBoardTest, invalidplacePiece)
 TEST(TicTacToeBoardTest, noWinner)
 {
 	TicTacToeBoard b;
-	b.placePiece(0,0); //x
-	b.placePiece(0,1); //o
-	b.placePiece(0,2); //x
-	b.placePiece(1,0); //o
-	b.placePiece(1,1); //x
-	b.placePiece(1,2); //o
-	b.placePiece(2,0); //x
-	b.placePiece(2,1); //o
-	b.placePiece(2,2); //x
-	ASSERT_EQ(b.getWinner(), Invalid);
+	b.placePiece(0,0);
+	b.placePiece(1,0);
+	b.placePiece(2,0);
+	b.placePiece(2,2);
+	b.placePiece(1,2);
+	b.placePiece(0,2);
+	b.placePiece(0,1);
+	b.placePiece(1,1);
+	b.placePiece(2,1);
+	ASSERT_EQ(b.getWinner(), Blank);
 }
 
 TEST(TicTacToeBoardTest, lastColWinner)
