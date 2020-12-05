@@ -19,7 +19,12 @@ TicTacToeBoard::TicTacToeBoard()
 **/
 Piece TicTacToeBoard::toggleTurn()
 {
-  return Invalid;
+  if(turn == X)
+    turn = O;
+  else
+    turn = X;
+  
+  return turn;
 }
 
 /**
@@ -33,7 +38,25 @@ Piece TicTacToeBoard::toggleTurn()
 **/ 
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
-  return Invalid;
+  //game over, no need to play 
+  if(getWinner() == Invalid) 
+  {
+    //out of bounds
+    Piece curPiece = getPiece(row, column);
+    if (curPiece == Invalid)
+    {
+      return Invalid;
+    }
+    else if (curPiece == Blank)
+    {
+      curPiece = turn;
+      board[row][column] = curPiece;	
+      toggleTurn();
+      
+    }
+    //filled spot
+    return curPiece;
+  }
 }
 
 /**
@@ -42,7 +65,12 @@ Piece TicTacToeBoard::placePiece(int row, int column)
 **/
 Piece TicTacToeBoard::getPiece(int row, int column)
 {
-  return Invalid;
+  if (row >= BOARDSIZE || row < 0 || column >= BOARDSIZE || column < 0)
+  {
+    return Invalid;
+  }
+  //should return Blank or the Piece
+  return board[row][column];
 }
 
 /**
@@ -51,5 +79,48 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
-  return Invalid;
+
+  for( int i=0; i<BOARDSIZE; ++i)
+  {
+    if(board[i][0] != Blank)
+    {
+      //horizontal check
+      if((board[i][0] == board[i][1]) && (board[i][0] == board[i][2]))
+      {
+        return board[i][0];
+      }
+
+      //vertical
+      if((board[0][i] == board[1][i]) && (board[0][i] == board[2][i]))
+      {
+        return board[0][1];
+      }
+    }
+
+  }
+
+  //diagonal
+  if ((board[0][0] != Blank) && (board[0][0] == board[1][1]) && (board[0][0] == board[2][2]))
+  {
+    return board[0][0];
+  }
+  if ((board[2][0] != Blank) && (board[2][0] == board[1][1]) && (board[2][0] == board[0][2]))
+  {
+    return board[2][0];
+  }
+
+  //returns invalid if a row has been filled
+  for (int i = 0; i < 3; ++i)
+  {
+    for (int j = 0; j < 3; ++j)
+    {
+      if (board[i][j] != Blank)
+      {
+        return Invalid;
+      }
+    }
+  }
+
+  //returns Blank if no rows has been has been filled
+  return Blank;
 }
